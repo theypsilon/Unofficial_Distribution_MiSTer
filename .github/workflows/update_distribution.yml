@@ -1,0 +1,27 @@
+name: Update Unofficial Distribution
+
+on:
+  schedule:
+  - cron:  "*/20 * * * *"
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-20.04
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        ref: develop
+
+    - name: Update Unofficial Distribution
+      run: |
+        set -euo pipefail
+        git config --global user.email "theypsilon@gmail.com"
+        git config --global user.name "The CI/CD Bot"
+        ./.github/update_distribution.sh . --push
+      env:
+        DB_ID: theypsilon_unofficial_distribution
+        DB_URL: https://raw.githubusercontent.com/theypsilon/Distribution_Unofficial_MiSTer/main/unofficialdb.json.zip
+        BASE_FILES_URL: https://raw.githubusercontent.com/theypsilon/Distribution_Unofficial_MiSTer/%s/
+        LATEST_ZIP_URL: https://github.com/theypsilon/Distribution_Unofficial_MiSTer/archive/refs/heads/main.zip
