@@ -3,7 +3,7 @@
 
 set -euo pipefail
 
-curl -o /tmp/update_distribution.source "https://raw.githubusercontent.com/MiSTer-devel/Distribution_MiSTermain/.github/update_distribution.sh"
+curl -o /tmp/update_distribution.source "https://raw.githubusercontent.com/MiSTer-devel/Distribution_MiSTer/main/.github/update_distribution.sh"
 
 source /tmp/update_distribution.source
 rm /tmp/update_distribution.source
