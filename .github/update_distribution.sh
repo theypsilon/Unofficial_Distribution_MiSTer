@@ -18,21 +18,19 @@ update_distribution() {
     process_url "https://github.com/Kyp069/zx48-MiSTer" _Computer "${OUTPUT_FOLDER}"
     process_url "https://github.com/MrX-8B/MiSTer-Arcade-PenguinKunWars" _Arcade "${OUTPUT_FOLDER}"
 
-    if [[ "${PUSH_COMMAND}" == "--push" ]] ; then
-        git checkout -f develop -b main
-        echo "Running detox"
-        detox -v -s utf_8-only -r *
-        echo "Detox done"
-        git add "${OUTPUT_FOLDER}"
-        git commit -m "-"
-        git fetch origin main || true
-        if ! git diff --exit-code main origin/main^ ; then
-            echo "Calculating db..."
-            /tmp/calculate_db.py
-        else
-            echo "Nothing to be updated."
-        fi
+    if [[ "${PUSH_COMMAND}" != "--push" ]] ; then
+        return
     fi
+
+    git checkout -f develop -b main
+    echo "Running detox"
+    detox -v -s utf_8-only -r *
+    echo "Detox done"
+    git add "${OUTPUT_FOLDER}"
+    git commit -m "-"
+    git fetch origin main || true
+    echo "Calculating db..."
+    /tmp/calculate_db.py
 }
 
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]] ; then
