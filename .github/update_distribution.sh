@@ -18,7 +18,9 @@ update_distribution() {
     process_url "https://github.com/Kyp069/zx48-MiSTer" _Computer "${OUTPUT_FOLDER}"
     process_url "https://github.com/MrX-8B/MiSTer-Arcade-PenguinKunWars" _Arcade "${OUTPUT_FOLDER}"
     process_url "https://github.com/GX400-Friends/gx400-bin" _Arcade "${OUTPUT_FOLDER}"
+    process_url "https://github.com/GX400-Friends/gx400-bin" "user-content-mra-alternatives-under-releases" "${OUTPUT_FOLDER}"
     process_url "https://github.com/va7deo/zerowing" _Arcade "${OUTPUT_FOLDER}"
+    process_url "https://github.com/va7deo/zerowing" "user-content-mra-alternatives-under-releases" "${OUTPUT_FOLDER}"
 
     if [[ "${PUSH_COMMAND}" != "--push" ]] ; then
         return
