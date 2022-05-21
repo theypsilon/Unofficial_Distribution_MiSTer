@@ -21,6 +21,8 @@ update_distribution() {
     process_url "https://github.com/va7deo/zerowing" "user-content-mra-alternatives-under-releases" "${OUTPUT_FOLDER}"
     process_url "https://github.com/va7deo/TerraCresta" _Arcade "${OUTPUT_FOLDER}"
     process_url "https://github.com/va7deo/TerraCresta" "user-content-mra-alternatives-under-releases" "${OUTPUT_FOLDER}"
+    process_url "https://github.com/va7deo/ArmedF" _Arcade "${OUTPUT_FOLDER}"
+    process_url "https://github.com/va7deo/ArmedF" "user-content-mra-alternatives-under-releases" "${OUTPUT_FOLDER}"
 
     if [[ "${PUSH_COMMAND}" != "--push" ]] ; then
         return
