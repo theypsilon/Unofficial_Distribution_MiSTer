@@ -25,6 +25,7 @@ update_distribution() {
     process_url "https://github.com/va7deo/ArmedF" "user-content-mra-alternatives-under-releases" "${OUTPUT_FOLDER}"
     process_url "https://github.com/GX400-Friends/gx400-bin" _Arcade "${OUTPUT_FOLDER}"
     process_url "https://github.com/GX400-Friends/gx400-bin" "user-content-mra-alternatives-under-releases" "${OUTPUT_FOLDER}"
+    process_url "https://github.com/atrac17/Toaplan2" _Arcade "${OUTPUT_FOLDER}"
 
     if [[ "${PUSH_COMMAND}" != "--push" ]] ; then
         return
