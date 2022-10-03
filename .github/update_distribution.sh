@@ -16,7 +16,6 @@ update_distribution() {
     local PUSH_COMMAND="${2:-}"
 
     process_url "https://github.com/Kyp069/zx48-MiSTer" _Computer "${OUTPUT_FOLDER}"
-    process_url "https://github.com/MrX-8B/MiSTer-Arcade-PenguinKunWars" _Arcade "${OUTPUT_FOLDER}"
     process_url "https://github.com/GX400-Friends/gx400-bin" _Arcade "${OUTPUT_FOLDER}"
     process_url "https://github.com/GX400-Friends/gx400-bin" "user-content-mra-alternatives-under-releases" "${OUTPUT_FOLDER}"
 
