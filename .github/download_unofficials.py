@@ -5,7 +5,7 @@ import subprocess
 try:
     import httpimport
 except ImportError as _:
-    subprocess.run(['python3', '-m', 'pip', 'install', 'httpimport'])
+    subprocess.run(['python3', '-m', 'pip', 'install', 'requests', 'httpimport'])
     import httpimport
 
 download_distribution = httpimport.load('download_distribution', 'https://raw.githubusercontent.com/MiSTer-devel/Distribution_MiSTer/develop/.github')
