@@ -33,7 +33,10 @@ jobs:
       run: ./.github/download_unofficials.py .
       
     - name: Update Unofficial Distribution
-      run: ./.github/update_distribution.sh . --push
+      run: |
+        curl -o /tmp/calculate_db.py "https://raw.githubusercontent.com/MiSTer-devel/Distribution_MiSTer/develop/.github/calculate_db.py"
+        chmod +x /tmp/calculate_db.py
+        /tmp/calculate_db.py
       env:
         DB_ID: theypsilon_unofficial_distribution
         DB_URL: https://raw.githubusercontent.com/theypsilon/Distribution_Unofficial_MiSTer/main/unofficialdb.json.zip
