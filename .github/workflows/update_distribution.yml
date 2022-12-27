@@ -29,8 +29,8 @@ jobs:
         git config --global user.email "theypsilon@gmail.com"
         git config --global user.name "The CI/CD Bot"
 
-    - name: Download Distribution
-      run: python3 ./.github/download_distribution.py
+    - name: Download Unofficials
+      run: ./.github/download_unofficials.py .
       
     - name: Update Unofficial Distribution
       run: ./.github/update_distribution.sh . --push
