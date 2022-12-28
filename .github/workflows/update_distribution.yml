@@ -10,26 +10,33 @@ on:
 
 jobs:
   update:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     steps:
     - name: Install apt-get utilities
-      run: sudo apt-get install detox sharutils
+      run: sudo apt-get install sharutils
 
     - uses: actions/setup-python@v2
       with:
-        python-version: '3.9'
+        python-version: '3.11'
         
     - uses: actions/checkout@v2
       with:
         ref: develop
 
-    - name: Update Unofficial Distribution
+    - name: Set Git User
       run: |
-        set -euo pipefail
         git config --global user.email "theypsilon@gmail.com"
         git config --global user.name "The CI/CD Bot"
-        ./.github/update_distribution.sh . --push
+
+    - name: Download Unofficials
+      run: ./.github/download_unofficials.py .
+      
+    - name: Update Unofficial Distribution
+      run: |
+        curl -o /tmp/calculate_db.py "https://raw.githubusercontent.com/MiSTer-devel/Distribution_MiSTer/develop/.github/calculate_db.py"
+        chmod +x /tmp/calculate_db.py
+        /tmp/calculate_db.py
       env:
         DB_ID: theypsilon_unofficial_distribution
         DB_URL: https://raw.githubusercontent.com/theypsilon/Distribution_Unofficial_MiSTer/main/unofficialdb.json.zip
