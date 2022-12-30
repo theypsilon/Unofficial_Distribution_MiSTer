@@ -12,6 +12,14 @@ jobs:
   update:
     runs-on: ubuntu-22.04
 
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      BASE_FILES_URL: https://raw.githubusercontent.com/theypsilon/Distribution_Unofficial_MiSTer/%s/
+      DB_JSON_NAME: unofficialdb.json
+      DB_ID: theypsilon_unofficial_distribution
+      DB_URL: https://raw.githubusercontent.com/theypsilon/Distribution_Unofficial_MiSTer/main/unofficialdb.json.zip
+      LATEST_ZIP_URL: https://github.com/theypsilon/Distribution_Unofficial_MiSTer/archive/refs/heads/main.zip
+
     steps:
     - name: Install apt-get utilities
       run: sudo apt-get install sharutils
@@ -32,13 +40,24 @@ jobs:
     - name: Download Unofficials
       run: ./.github/download_unofficials.py .
       
-    - name: Update Unofficial Distribution
+    - name: Download Dependencies
       run: |
-        curl -o /tmp/calculate_db.py "https://raw.githubusercontent.com/MiSTer-devel/Distribution_MiSTer/develop/.github/calculate_db.py"
-        chmod +x /tmp/calculate_db.py
-        /tmp/calculate_db.py
-      env:
-        DB_ID: theypsilon_unofficial_distribution
-        DB_URL: https://raw.githubusercontent.com/theypsilon/Distribution_Unofficial_MiSTer/main/unofficialdb.json.zip
-        BASE_FILES_URL: https://raw.githubusercontent.com/theypsilon/Distribution_Unofficial_MiSTer/%s/
-        LATEST_ZIP_URL: https://github.com/theypsilon/Distribution_Unofficial_MiSTer/archive/refs/heads/main.zip
+        curl -o /tmp/db_operator.py "https://raw.githubusercontent.com/MiSTer-devel/Distribution_MiSTer/develop/.github/db_operator.py"
+        curl -o /tmp/test_database.sh "https://raw.githubusercontent.com/MiSTer-devel/Distribution_MiSTer/develop/.github/test_database.sh"
+        curl -o /tmp/push_database.sh "https://raw.githubusercontent.com/MiSTer-devel/Distribution_MiSTer/develop/.github/push_database.sh"
+        chmod +x /tmp/db_operator.py /tmp/test_database.sh /tmp/push_database.sh
+
+    - name: Build Database
+      run: /tmp/db_operator.py build .
+
+    - name: New Database Exists?
+      id: db_exists
+      run: if [ -f "${DB_JSON_NAME}" ] ; then echo "new_db=true" >> "${GITHUB_OUTPUT}" ; fi
+
+    - name: Test Database
+      if: steps.db_exists.outputs.new_db == 'true' 
+      run: /tmp/test_database.sh
+
+    - name: Push Database
+      if: steps.db_exists.outputs.new_db == 'true' 
+      run: /tmp/push_database.sh
