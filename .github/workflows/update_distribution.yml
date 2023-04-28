@@ -19,6 +19,7 @@ jobs:
       DB_ID: theypsilon_unofficial_distribution
       DB_URL: https://raw.githubusercontent.com/theypsilon/Distribution_Unofficial_MiSTer/main/unofficialdb.json.zip
       LATEST_ZIP_URL: https://github.com/theypsilon/Distribution_Unofficial_MiSTer/archive/refs/heads/main.zip
+      BROKEN_MRAS_IGNORE: true
 
     steps:
     - name: Install apt-get utilities
