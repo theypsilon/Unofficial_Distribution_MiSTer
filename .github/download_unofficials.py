@@ -14,8 +14,20 @@ target = download_distribution.read_target_dir()
 metadata_props = download_distribution.Metadata.new_props()
 delme = subprocess.run(['mktemp', '-d'], shell=False, stderr=subprocess.STDOUT, stdout=subprocess.PIPE).stdout.decode().strip()
 
-download_distribution.process_core({'name': 'ZX-Spectrum 48', 'url': "https://github.com/Kyp069/zx48-MiSTer", 'home': 'zx48', 'category': '_Computer'}, delme, target, metadata_props)
-download_distribution.process_core({'name': 'GX400', 'url': "https://github.com/GX400-Friends/gx400-bin", 'category': '_Arcade'}, delme, target, metadata_props)
-download_distribution.process_extra_content("https://github.com/GX400-Friends/gx400-bin", 'user-content-mra-alternatives-under-releases', delme, target)
-download_distribution.process_core({'name': 'TMNT', 'url': "https://github.com/furrtek/Arcade-TMNT_MiSTer", 'category': '_Arcade'}, delme, target, metadata_props)
-download_distribution.process_extra_content("https://github.com/furrtek/Arcade-TMNT_MiSTer", 'user-content-mra-alternatives-under-releases', delme, target)
+def core(props):
+    try:
+        download_distribution.process_core(props, delme, target, metadata_props)
+    except Exception as e:
+        print(e)
+    
+def extra_content(url, kind):
+    try:
+        download_distribution.process_extra_content(url, kind, delme, target)
+    except Exception as e:
+        print(e)
+
+core({'name': 'ZX-Spectrum 48', 'url': "https://github.com/Kyp069/zx48-MiSTer", 'home': 'zx48', 'category': '_Computer'})
+core({'name': 'GX400', 'url': "https://github.com/GX400-Friends/gx400-bin", 'category': '_Arcade'})
+extra_content("https://github.com/GX400-Friends/gx400-bin", 'user-content-mra-alternatives-under-releases')
+core({'name': 'TMNT', 'url': "https://github.com/furrtek/Arcade-TMNT_MiSTer", 'category': '_Arcade'})
+extra_content("https://github.com/furrtek/Arcade-TMNT_MiSTer", 'user-content-mra-alternatives-under-releases')
