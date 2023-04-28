@@ -18,3 +18,4 @@ download_distribution.process_core({'name': 'ZX-Spectrum 48', 'url': "https://gi
 download_distribution.process_core({'name': 'GX400', 'url': "https://github.com/GX400-Friends/gx400-bin", 'category': '_Arcade'}, delme, target, metadata_props)
 download_distribution.process_extra_content("https://github.com/GX400-Friends/gx400-bin", 'user-content-mra-alternatives-under-releases', delme, target)
 download_distribution.process_core({'name': 'TMNT', 'url': "https://github.com/furrtek/Arcade-TMNT_MiSTer", 'category': '_Arcade'}, delme, target, metadata_props)
+download_distribution.process_extra_content("https://github.com/furrtek/Arcade-TMNT_MiSTer", 'user-content-mra-alternatives-under-releases', delme, target)
