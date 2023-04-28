@@ -2,6 +2,7 @@
 # Copyright (c) 2022 José Manuel Barroso Galindo <theypsilon@gmail.com>
 import csv
 import subprocess
+from pathlib import Path
 try:
     import httpimport
 except ImportError as _:
@@ -26,16 +27,18 @@ def core(props):
     except Exception as e:
         print(e)
 
-with open('mister_repos.csv', "r") as file:
+with open('external_mister_repos.csv', "r") as file:
     csv_reader = csv.reader(file)
     for row_number, row in enumerate(csv_reader):
         if row_number == 0: continue
         print('row: ' + str(row_number), row)
         try:
-            name, url, category = row[0].strip(), row[1].strip(), row[2].strip()
+            url, category = row[0].strip(), row[1].strip()
         except ValueError as e:
             print(f"Error processing row {row_number}: {e}")
             continue
+
+        name = Path(url).name
 
         if category.lower() == '_arcade':
             core({'name': name, 'url': url, 'category': '_Arcade'})
@@ -43,8 +46,9 @@ with open('mister_repos.csv', "r") as file:
             continue
 
         try:
-            home = row[3].strip()
+            home = row[2].strip()
         except ValueError as e:
             print(f"No 'home' column on row {row_number}: {e}")
             continue
+
         core({'name': name, 'url': url, 'home': home, 'category': category})

@@ -20,7 +20,7 @@ jobs:
       DB_URL: https://raw.githubusercontent.com/theypsilon/Distribution_Unofficial_MiSTer/main/unofficialdb.json.zip
       LATEST_ZIP_URL: https://github.com/theypsilon/Distribution_Unofficial_MiSTer/archive/refs/heads/main.zip
       BROKEN_MRAS_IGNORE: true
-      FINDER_IGNORE: 'mister_repos.csv'
+      FINDER_IGNORE: 'external_mister_repos.csv'
 
     steps:
     - name: Install apt-get utilities
