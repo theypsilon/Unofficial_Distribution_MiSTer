@@ -29,10 +29,10 @@ def core(props):
 with open('mister_repos.csv', "r") as file:
     csv_reader = csv.reader(file)
     for row_number, row in enumerate(csv_reader):
-        if row == 0: continue
+        if row_number == 0: continue
         print('row: ' + str(row_number), row)
         try:
-            name, url, category = row[0], row[1], row[2]
+            name, url, category = row[0].strip(), row[1].strip(), row[2].strip()
         except ValueError as e:
             print(f"Error processing row {row_number}: {e}")
             continue
@@ -43,7 +43,7 @@ with open('mister_repos.csv', "r") as file:
             continue
 
         try:
-            home = row[3]
+            home = row[3].strip()
         except ValueError as e:
             print(f"No 'home' column on row {row_number}: {e}")
             continue
