@@ -28,7 +28,8 @@ def core(props):
 
 with open('mister_repos.csv', "r") as file:
     csv_reader = csv.reader(file)
-    for row_number, row in enumerate(csv_reader, start=2):
+    for row_number, row in enumerate(csv_reader):
+        if row == 0: continue
         print('row: ' + str(row_number), row)
         try:
             name, url, category = row[0], row[1], row[2]
