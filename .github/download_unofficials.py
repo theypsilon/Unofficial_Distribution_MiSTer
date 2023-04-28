@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # Copyright (c) 2022 José Manuel Barroso Galindo <theypsilon@gmail.com>
-
+import csv
 import subprocess
 try:
     import httpimport
@@ -23,11 +23,26 @@ def extra_content(url, kind):
 def core(props):
     try:
         download_distribution.process_core(props, delme, target, metadata_props)
-        if 'url' in props and 'category' in props and props['category'].lower() == '_arcade':
-            extra_content(props['url'], 'user-content-mra-alternatives-under-releases')
     except Exception as e:
         print(e)
 
-core({'name': 'ZX-Spectrum 48', 'url': "https://github.com/Kyp069/zx48-MiSTer", 'home': 'zx48', 'category': '_Computer'})
-core({'name': 'GX400', 'url': "https://github.com/GX400-Friends/gx400-bin", 'category': '_Arcade'})
-core({'name': 'TMNT', 'url': "https://github.com/furrtek/Arcade-TMNT_MiSTer", 'category': '_Arcade'})
+with open('mister_repos.csv', "r") as file:
+    csv_reader = csv.reader(file)
+    for row_number, row in enumerate(csv_reader, start=1):
+        try:
+            name, url, category = row[0], row[1], row[2]
+        except ValueError as e:
+            print(f"Error processing row {row_number}: {e}")
+            continue
+
+        if category.lower() == '_arcade':
+            core({'name': name, 'url': url, 'category': '_Arcade'})
+            extra_content(url, 'user-content-mra-alternatives-under-releases')
+            continue
+
+        try:
+            home = row[3]
+        except ValueError as e:
+            print(f"No 'home' column on row {row_number}: {e}")
+            continue
+        core({'name': name, 'url': url, 'home': home, 'category': category})
