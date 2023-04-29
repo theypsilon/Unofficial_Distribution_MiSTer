@@ -48,15 +48,8 @@ jobs:
         git add .
         git commit -m "-"
 
-    - name: Download Dependencies
-      run: |
-        curl -o /tmp/db_operator.py "https://raw.githubusercontent.com/MiSTer-devel/Distribution_MiSTer/develop/.github/db_operator.py"
-        curl -o /tmp/test_database.sh "https://raw.githubusercontent.com/MiSTer-devel/Distribution_MiSTer/develop/.github/test_database.sh"
-        curl -o /tmp/push_database.sh "https://raw.githubusercontent.com/MiSTer-devel/Distribution_MiSTer/develop/.github/push_database.sh"
-        chmod +x /tmp/db_operator.py /tmp/test_database.sh /tmp/push_database.sh
-
     - name: Build Database
-      run: /tmp/db_operator.py build .
+      run: set -o pipefail && curl --fail --location https://raw.githubusercontent.com/MiSTer-devel/Distribution_MiSTer/main/.github/db_operator.py | python3 - build .
 
     - name: New Database Exists?
       id: db_exists
@@ -64,8 +57,12 @@ jobs:
 
     - name: Test Database
       if: steps.db_exists.outputs.new_db == 'true' 
-      run: /tmp/test_database.sh
+      run: set -o pipefail && curl --fail --location https://raw.githubusercontent.com/MiSTer-devel/Distribution_MiSTer/main/.github/test_database.sh | bash
 
     - name: Push Database
       if: steps.db_exists.outputs.new_db == 'true' 
-      run: /tmp/push_database.sh
+      run: |
+        zip unofficialdb.json.zip unofficialdb.json
+        git add unofficialdb.json.zip README.md
+        git commit -m "-"
+        git push --force origin main
