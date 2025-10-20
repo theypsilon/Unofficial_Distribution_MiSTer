@@ -66,3 +66,26 @@ jobs:
         git add unofficialdb.json.zip README.md
         git commit -m "-"
         git push --force origin main
+
+    - name: Track Release Commit
+      if: steps.db_exists.outputs.new_db == 'true'
+      run: |
+        MAIN_COMMIT=$(git rev-parse main)
+        CURRENT_DATE=$(date -u +"%Y-%m-%d %H:%M:%S UTC")
+        echo "Main branch commit: ${MAIN_COMMIT}"
+        echo "Release date: ${CURRENT_DATE}"
+
+        git fetch origin db-releases || true
+        if git rev-parse --verify origin/db-releases >/dev/null 2>&1; then
+          git checkout -f db-releases
+          git pull origin db-releases
+        else
+          git checkout --orphan db-releases
+          git reset --hard
+        fi
+
+        echo "${CURRENT_DATE}: ${MAIN_COMMIT}" >> commits.txt
+
+        git add commits.txt
+        git commit -m "Track main branch release: ${MAIN_COMMIT}"
+        git push origin db-releases
